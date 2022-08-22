@@ -12,7 +12,8 @@ export class GistService {
         try {
             return await axios.get(`${this.gitUrl}username`);
         } catch (error) {
-            throw new Error('Error while getting Public Gists From User')
+            console.log(error)
+            throw new Error('Error while getting Public Gists From User' + error)
         }
     }
 }
