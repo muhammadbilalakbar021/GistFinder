@@ -45,6 +45,14 @@ export class ConfigService {
     return this.envConfig.NODE_ENV;
   }
 
+  get username(): string {
+    return this.envConfig.username;
+  }
+
+  get password(): string {
+    return this.envConfig.password;
+  }
+
   get port(): string {
     return this.envConfig.PORT;
   }
