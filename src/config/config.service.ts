@@ -45,15 +45,23 @@ export class ConfigService {
     return this.envConfig.NODE_ENV;
   }
 
-  get username(): string {
-    return this.envConfig.username;
+  get USERNAME(): string {
+    return this.envConfig.USERNAME;
   }
 
-  get password(): string {
-    return this.envConfig.password;
+  get PASSWORD(): string {
+    return this.envConfig.PASSWORD;
   }
 
   get port(): string {
     return this.envConfig.PORT;
+  }
+
+  get REDIS_PORT(): string {
+    return this.envConfig.REDIS_PORT;
+  }
+
+  get REDIS_HOST(): string {
+    return this.envConfig.REDIS_HOST;
   }
 }

@@ -18,8 +18,8 @@ export class GistService {
         try {
             let date: any = new Date();
             const gists = new Gists({
-                username: this.configInterface.username,
-                password: this.configInterface.password
+                username: this.configInterface.USERNAME,
+                password: this.configInterface.PASSWORD
             });
 
             if (await this.cacheManager.get(username)) {
