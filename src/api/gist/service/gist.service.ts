@@ -3,7 +3,7 @@ import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
 const axios = require('axios');
 const Gists = require('gists');
 import Cache from 'cache-manager';
-import { ConfigInterface } from 'src/config/interface/config.interface';
+import { ConfigService } from 'src/config/config.service';
 
 
 
@@ -11,15 +11,15 @@ import { ConfigInterface } from 'src/config/interface/config.interface';
 export class GistService {
     constructor(
         @Inject(CACHE_MANAGER) private cacheManager: Cache | any,
-        private readonly configInterface:ConfigInterface
+        private readonly configService:ConfigService
     ) { }
 
     async publicGists(username: string) {
         try {
             let date: any = new Date();
             const gists = new Gists({
-                username: this.configInterface.USERNAME,
-                password: this.configInterface.PASSWORD
+                username: this.configService.USERNAME,
+                password: this.configService.PASSWORD
             });
 
             if (await this.cacheManager.get(username)) {

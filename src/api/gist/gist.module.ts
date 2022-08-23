@@ -4,6 +4,7 @@ import { GistController } from './controller/gist.controller';
 import { GistService } from './service/gist.service';
 import { NestCrawlerModule } from 'nest-crawler';
 import * as redisStore from 'cache-manager-redis-store';
+import { ConfigService } from 'src/config/config.service';
 
 @Module({
   imports: [
@@ -15,6 +16,6 @@ import * as redisStore from 'cache-manager-redis-store';
     })
   ],
   controllers: [GistController],
-  providers: [GistService, ResponseService]
+  providers: [GistService, ResponseService, ConfigService]
 })
 export class GistModule {}
