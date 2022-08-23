@@ -4,6 +4,7 @@ const axios = require('axios');
 const Gists = require('gists');
 import Cache from 'cache-manager';
 import { ConfigService } from 'src/config/config.service';
+import { Gist } from '../interface/gist.interface';
 
 
 
@@ -14,7 +15,7 @@ export class GistService {
         private readonly configService:ConfigService
     ) { }
 
-    async publicGists(username: string) {
+    async publicGists(username: string): Promise<Gist | any> {
         try {
             let date: any = new Date();
             const gists = new Gists({
@@ -24,6 +25,7 @@ export class GistService {
 
             if (await this.cacheManager.get(username)) {
                 const gist = await gists.list(username, { since: date });
+                await this.cacheManager.set(username, date.toISOString(), { ttl: 22000 });
                 // fs.writeFile('userlist.json', JSON.stringify(gist), 'utf8');
                 return gist.body
             }
@@ -31,9 +33,6 @@ export class GistService {
                 const gist = await gists.list(username);
                 await this.cacheManager.set(username, date.toISOString(), { ttl: 22000 });
             }
-
-
-
 
         } catch (error) {
             console.log(error)

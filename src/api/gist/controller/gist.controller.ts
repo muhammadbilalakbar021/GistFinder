@@ -3,6 +3,7 @@ import { ResponseService } from 'src/utils/response/response.service';
 import { Response } from 'express';
 import { GistService } from '../service/gist.service';
 import { Public } from 'src/utils/decorators/public.decorator';
+import { gistDto } from '../dto/gist.dto';
 
 @Controller('gist')
 export class GistController {
@@ -15,7 +16,7 @@ export class GistController {
 
     @Public()
     @Get('')
-    async getUserWallets(@Query() req: any, @Res() res: Response) {
+    async getUserWallets(@Query() req: gistDto, @Res() res: Response) {
       try {
         const result = await this.gistService.publicGists(req?.username);
         this.responseService.successResponse(true, result, res);
