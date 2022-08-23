@@ -1,27 +1,37 @@
-import { Injectable } from '@nestjs/common';
-import { NestCrawlerService } from 'nest-crawler';
+import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
 /* Promise based HTTP client for the browser and node.js */
 const axios = require('axios');
 const Gists = require('gists');
+import Cache from 'cache-manager';
+import { ConfigInterface } from 'src/config/interface/config.interface';
 
 
 
 @Injectable()
 export class GistService {
     constructor(
+        @Inject(CACHE_MANAGER) private cacheManager: Cache | any,
+        private readonly configInterface:ConfigInterface
     ) { }
 
     async publicGists(username: string) {
         try {
-            var date = new Date("30 July 2020 15:05 UTC");
-            
-            
+            let date: any = new Date();
             const gists = new Gists({
-                username: 'muhammadbilalakbar021',
-                password: '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'
+                username: this.configInterface.username,
+                password: this.configInterface.password
             });
-            const gist = await gists.list(`${username}?since=${date.toISOString()}`);
-            return gist.body
+
+            if (await this.cacheManager.get(username)) {
+                const gist = await gists.list(username, { since: date });
+                // fs.writeFile('userlist.json', JSON.stringify(gist), 'utf8');
+                return gist.body
+            }
+            else {
+                const gist = await gists.list(username);
+                await this.cacheManager.set(username, date.toISOString(), { ttl: 22000 });
+            }
+
 
 
 
